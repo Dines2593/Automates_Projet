@@ -1,5 +1,5 @@
 class Automate:
-    def __init___(self, alphabet, states):
+    def __init__(self, alphabet, states):
         self.alphabet = alphabet
         self.states = states
 
