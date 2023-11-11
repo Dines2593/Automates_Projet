@@ -1,7 +1,8 @@
 class Automate:
-    def __init__(self, alphabet, states):
+    def __init__(self, alphabet, states,name):
         self.alphabet = alphabet
         self.states = states
+        self.name = name
 
 class State:
     def __init__(self, name, isInitial, isFinal, transitions):

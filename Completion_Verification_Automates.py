@@ -4,12 +4,12 @@ from classes import State
 alphabet = ["a", "b"]
 q0 = State("q0", True, False, {"a": "q3", "b": "q1"})
 q1 = State("q1", False, False, {"a": "q1", "b": "q2"})
-q2 = State("q2", False, False, {"a": "q7", "b": "q4"})
-q3 = State("q3", False, False, {"a": "q7"})
+q2 = State("q2", False, True, {"a": "q7", "b": "q4"})
+q3 = State("q3", False, True, {"a": "q7"})
 
 states = [q0, q1, q2, q3]
 
-automate = Automate(alphabet, states)
+automate = Automate(alphabet, states, "automate")
 
 
 def make_complete(automate):
@@ -29,6 +29,7 @@ def make_complete(automate):
             for symbol, target_state in state.transitions.items():
                 if target_state == "phi":
                     state.transitions[symbol] = phi_state.name
+        return automate
 
 def is_complete(automate):
         is_complet=True
@@ -46,7 +47,7 @@ def is_complete(automate):
         return is_complet
 
 
-"""
+
 def print_states(automate):
     for state in states:
         print(f"État : {state.name}")
@@ -58,13 +59,11 @@ def print_states(automate):
 print("États de l'automate avant la complétion :")
 print_states(automate)
 print("\n")
-is_complete(automate)
+automate=make_complete(automate)
+automate=make_complete(automate)
 print("États de l'automate après la complétion :")
 print("\n")
 print_states(automate)
-is_complete(automate)
 
-"""
 
-make_complete(automate)
-make_complete(automate)
+
