@@ -1,7 +1,7 @@
 from classes import Automate
 from classes import State
 
-#meme partie du code
+#meme partie du code de base 
 class Automate:
     def __init__(self, alphabet, states, name):
         self.alphabet = alphabet
