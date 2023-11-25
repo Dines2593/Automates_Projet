@@ -1,68 +1,52 @@
-from classes import Automate
-from classes import State
+class State:
+    def __init__(self, name, initial, final, transitions):
+        self.name = name
+        self.initial = initial
+        self.final = final
+        self.transitions = transitions
 
-#meme partie du code de base 
 class Automate:
     def __init__(self, alphabet, states, name):
         self.alphabet = alphabet
         self.states = states
         self.name = name
 
+    def mirror(self):
+        mirrored_states = []
 
-class State:
-    def __init__(self, name, isInitial, isFinal, transitions):
-        self.name = name
-        self.isInitial = isInitial
-        self.isFinal = isFinal
-        self.transitions = transitions
+        # Inverser les états finaux et non finaux
+        #on parcourt chaque etat, et on echange final avec initial 
+        for state in self.states:
+            mirrored_state = State(state.name, state.final, state.initial, state.transitions)
+            mirrored_states.append(mirrored_state)
 
-#ajout du code miroir
-def mirror(automate):
-    mirrored_states = []
+        # Inverser les transitions
+        for state in mirrored_states: #parcours les etat miroir
+            for symbol in self.alphabet: #parcours les symbole de l'alphabet
+                new_transitions = [] #on stock les new transitions
+                for target_state in self.states:#on parcours les transitions dans les different etats
+                    if state.name in target_state.transitions.get(symbol, []): #on mets a jours 
+                        new_transitions.append(target_state.name)
+                state.transitions[symbol] = new_transitions
 
-    # on parcours pour créer des états miroirs avec les mêmes noms, mais des transitions inversées
-    for state in automate.states:
+        # Créer et retourner l'automate miroir
+        mirrored_automaton = Automate(self.alphabet, mirrored_states, self.name + '_mirror')
+        return mirrored_automaton
 
-       # on inverse les clés et les valeurs des transitions. et on ajoute l'état miroir à la liste
-        mirrored_transitions = dict(zip(state.transitions.values(), state.transitions.keys()))
-        #Création directe de l'état miroir avec les transitions inversées.
-        mirrored_state = State(state.name, state.isInitial, state.isFinal, mirrored_transitions)
-        mirrored_states.append(mirrored_state)
-
-    # Inverser les états initiaux et finaux
-    for state in mirrored_states:
-        state.isInitial, state.isFinal = state.isFinal, state.isInitial
-
-    # Créer un nouvel automate miroir
-    mirrored_automate = Automate(automate.alphabet, mirrored_states, f"{automate.name}_mirror")
-    return mirrored_automate
-
-
-#code pris dans completition_verification...
-def print_states(automate):
-    for state in automate.states:
-        print(f"État : {state.name}")
-        print(f"Transitions : {state.transitions}")
-        print(f"Est initial : {state.isInitial}")
-        print(f"Est final : {state.isFinal}")
-
-#l'automate
+# Exemple d'utilisation
 alphabet = ['a', 'b']
-q0 = State("q0", True, False, {"a": "q3", "b": "q1"})
-q1 = State("q1", False, False, {"a": "q1", "b": "q2"})
-q2 = State("q2", False, True, {"a": "q7", "b": "q4"})
-q3 = State("q3", False, True, {"a": "q7"})
 
-states = [q0, q1, q2, q3]
-automate = Automate(alphabet, states, "automate")
+q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
+q1 = State('q1', False, False, {'a': ['q1'], 'b': ['q2']})
+q2 = State('q2', False, True, {})
+q3 = State('q3', False, True, {'a': ['q3']})
 
-# Appliquer la fonction make_mirror
-mirrored_automate = mirror(automate)
-
-# Afficher les états de l'automate original
-print("Automate original:")
-print_states(automate)
+automaton = Automate(alphabet, [q0, q1, q2, q3], 'autobahn')
+mirrored_automaton = automaton.mirror()
 
 # Afficher l'automate miroir
-print("\nAutomate miroir:")
-print_states(mirrored_automate)
+for state in mirrored_automaton.states:
+    print(f"State: {state.name}, Initial: {state.initial}")
+    print(f"Final: {state.final}, Transitions: {state.transitions}")
+
+
