@@ -15,17 +15,16 @@ class Automate:
         mirrored_states = []
 
         # Inverser les états finaux et non finaux
-        #on parcourt chaque etat, et on echange final avec initial 
         for state in self.states:
-            mirrored_state = State(state.name, state.final, state.initial, state.transitions)
+            mirrored_state = State(state.name, not state.final, not state.initial, {})
             mirrored_states.append(mirrored_state)
 
         # Inverser les transitions
-        for state in mirrored_states: #parcours les etat miroir
-            for symbol in self.alphabet: #parcours les symbole de l'alphabet
-                new_transitions = [] #on stock les new transitions
-                for target_state in self.states:#on parcours les transitions dans les different etats
-                    if state.name in target_state.transitions.get(symbol, []): #on mets a jours 
+        for state in mirrored_states:
+            for symbol in self.alphabet:
+                new_transitions = []
+                for target_state in self.states:
+                    if state.name in target_state.transitions.get(symbol, []):
                         new_transitions.append(target_state.name)
                 state.transitions[symbol] = new_transitions
 
@@ -48,5 +47,3 @@ mirrored_automaton = automaton.mirror()
 for state in mirrored_automaton.states:
     print(f"State: {state.name}, Initial: {state.initial}")
     print(f"Final: {state.final}, Transitions: {state.transitions}")
-
-
