@@ -1,30 +1,3 @@
-class Automate:
-    def __init__(self, alphabet, states,name):
-        self.alphabet = alphabet
-        self.states = states
-        self.name = name
-
-class State:
-    def __init__(self, name, isInitial, isFinal, transitions):
-        self.name = name
-        self.isInitial = isInitial
-        self.isFinal = isFinal
-        self.transitions = transitions
-
-"""
-# Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
-
-alphabet = ['a', 'b']
-
-q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
-q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
-q2 = State('q2', False, True, {})
-q3 = State('q3', False, True, {'a':'q3'})
-
-a = Automate(alphabet, [q0, q1, q2, q3])
-
-
-"""
 import json 
 import os
 
@@ -56,9 +29,9 @@ class Automate:
         automate_dict = self.to_dict()
         if(not os.path.exists("./mes_automates")):
             os.makedirs("./mes_automates")
-        with open("./mes_automates/"+filename, 'w') as json_file:
+        with open("./mes_automates/"+filename+".json", 'w') as json_file:
             json.dump(automate_dict, json_file, indent=4)
-
+    
     @classmethod
     def from_dict(cls, automate_dict):
         # Créer une instance de la classe Automate à partir d'un dictionnaire
@@ -72,7 +45,7 @@ class Automate:
     @classmethod
     def from_json(cls, filename):
         # Lire les données du fichier JSON et créer une instance de la classe Automate
-        with open("./mes_automates/"+filename, 'r') as json_file:
+        with open("./mes_automates/"+filename+".json", 'r') as json_file:
             automate_data = json.load(json_file)
         return cls.from_dict(automate_data)
 
@@ -82,6 +55,20 @@ class State:
         self.isInitial = isInitial
         self.isFinal = isFinal
         self.transitions = transitions
+        
+# Function to delete a json file
+def del_json(filename):  
+    # Verify if the path exist
+    if(not os.path.exists("./mes_automates")):
+        print("The automata file is empty")
+    else:
+        try:  
+            os.remove("./mes_automates/"+filename+".json")  # Delete the .json file
+            print("The file has been removed")
+        except:
+            print("The file does not exist !")  # If there's no .json file 
+            
+
 
 """
 # Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
@@ -93,9 +80,13 @@ q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
 q2 = State('q2', False, True, {})
 q3 = State('q3', False, True, {'a':'q3'})
 
-a = Automate(alphabet, [q0, q1, q2, q3])
+a = Automate(alphabet, [q0, q1, q2, q3],"test")
 
+a.to_json("test")  # Create the 'test.json'
 
+del_json("test")  # Delete the 'test.json' file
 """
+
+
 
 
