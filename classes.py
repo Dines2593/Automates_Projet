@@ -24,14 +24,28 @@ class Automate:
         }
         return automate_dict
 
-    def to_json(self, filename):
+    # Function to save the automata as an .json file
+    def to_json(self):
         # Sérialiser l'objet en JSON et l'enregistrer dans un fichier
         automate_dict = self.to_dict()
         if(not os.path.exists("./mes_automates")):
             os.makedirs("./mes_automates")
-        with open("./mes_automates/"+filename+".json", 'w') as json_file:
+        with open("./mes_automates/"+self.name+".json", 'w') as json_file:
             json.dump(automate_dict, json_file, indent=4)
     
+            
+    # Function to delete a json file
+    def del_json(self):  
+        # Verify if the path exist
+        if(not os.path.exists("./mes_automates")):
+            print("The automata file is empty")
+        else:
+            try:  
+                os.remove("./mes_automates/"+self.name+".json")  # Delete the .json file
+                print("The file has been removed")
+            except:
+                print("The file does not exist !")  # If there's no .json file 
+
     @classmethod
     def from_dict(cls, automate_dict):
         # Créer une instance de la classe Automate à partir d'un dictionnaire
@@ -55,20 +69,6 @@ class State:
         self.isInitial = isInitial
         self.isFinal = isFinal
         self.transitions = transitions
-        
-# Function to delete a json file
-def del_json(filename):  
-    # Verify if the path exist
-    if(not os.path.exists("./mes_automates")):
-        print("The automata file is empty")
-    else:
-        try:  
-            os.remove("./mes_automates/"+filename+".json")  # Delete the .json file
-            print("The file has been removed")
-        except:
-            print("The file does not exist !")  # If there's no .json file 
-            
-
 
 """
 # Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
@@ -80,13 +80,13 @@ q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
 q2 = State('q2', False, True, {})
 q3 = State('q3', False, True, {'a':'q3'})
 
-a = Automate(alphabet, [q0, q1, q2, q3],"test")
+a = Automate(alphabet, [q0, q1, q2, q3], "test")
 
-a.to_json("test")  # Create the 'test.json'
+a.to_json()  # Create the 'test.json'
 
-del_json("test")  # Delete the 'test.json' file
+a.del_json()  # Delete the 'test.json' file
+
 """
-
 
 
 
