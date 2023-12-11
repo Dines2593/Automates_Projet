@@ -1,6 +1,8 @@
 from classes import Automate
 from classes import State
 
+
+# exemple automata
 alphabet = ["a", "b"]
 q0 = State("q0", True, False, {"a": "q3", "b": "q1"})
 q1 = State("q1", False, False, {"a": "q1", "b": "q2"})
@@ -10,7 +12,6 @@ q3 = State("q3", False, True, {"a": "q7"})
 states = [q0, q1, q2, q3]
 
 automate = Automate(alphabet, states, "automate")
-
 
 def make_complete(automate):
     if is_complete(automate) == True:
@@ -35,10 +36,10 @@ def is_complete(automate):
         is_complet=True
         for state in automate.states:
             if state.isFinal:
-                if set(state.transitions.keys()) != set(alphabet):
+                if set(state.transitions.keys()) != set(automate.alphabet):
                     is_complet = False
             else:
-                if set(state.transitions.keys()) != set(alphabet):
+                if set(state.transitions.keys()) != set(automate.alphabet):
                     is_complet = False
         if is_complet == True:
             print("L'automate est complet.")
