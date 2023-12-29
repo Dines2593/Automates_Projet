@@ -1,27 +1,35 @@
 from classes import Automate, State
 
+
+#alphabet = ['a', 'b']
+
+#q0 = State('q0', True, False, {'a':['q1','q3'], 'b':['q1']})
+#q1 = State('q1', False, False, {'a':['q2'], 'b':['q1']})
+#q2 = State('q2', False, True, {'a': ['q2']})
+#q3 = State('q3', False, True, {'a':['q3']})
+
+#auto  = Automate(alphabet, [q0, q1, q2, q3],"auto")
+
 def isDeterminist(automate):
-    countitup=0
+    count=0
+    chogoice=0
     for state in automate.states :
         for symbs, transi in state.transitions.items() :  #le symbs, transi correspond aux clés/valeurs du dictionnaire transitions, items()permet de les parcourir
             if len(transi)>1 :                            
-                return False
-        if state.isInitial == True :
-            countitup+=1
-    if countitup != 1 :
-        return False
-    return True
-    
-    if is_determinist :
+                count+=1
+                break
+        if count != 0 :
+            break
+    if count == 0 :
         print("L'automate est déjà déterministe")
-        
+        return automate    
     else :
         yeepee=0
         while yeepee == 0:
-            chogoice=input(print("Lautomate n'est pas déterministe. Voulez vous le déterminiser?\n1:oui 2:non"))
+            chogoice=input("Lautomate n'est pas déterministe. Voulez vous le déterminiser?\n1:oui 2:non\n")
             match chogoice:
-                case 1:automate=determining(automate);yeepee=1
-                case 2:yeepee=1
+                case "1":automate=determining(automate);yeepee=1; print(automate); return automate
+                case "2":return automate
                 case _:print("Le choix n'existe pas, veuillez rééssayer.\n")
 
 def determining(automate):
@@ -31,19 +39,19 @@ def determining(automate):
     newName=[]#liste des noms d'états composant le nom d'un nouvel état fusion, me sert à chercher leurs transitions
     fusion=''#nom d'un état fusion
     newTransi={}#transition d'un nouvel état fusion
-    automateName=""
+    Liste=[]
 
 
-    newTransiList=[]#chp
+    
     namesList=[]#liste de strings, chp
     
 
     
     allStates=allStates+automate.states
-    statesList.append(automate.state[0])
+    statesList.append(automate.states[0])
 
 
-    namesList.append(automate.state[0].name)
+    namesList.append(automate.states[0].name)
 
 
     for state in statesList:
@@ -59,12 +67,12 @@ def determining(automate):
 
         for symb, transi in state.transitions.items():
             newName=list(transi)                                        #je recupere la liste des transitions de chaque état qui sera dans le nouvel automate, 1 par 1
-            if len(newName>1) :
+            if len(newName)>1 :
                 newName=unify(newName)
                 newName=ordo(allStates, newName)
-                fusion=';'.join(newName)
+                fusion='_'.join(newName)
             else :
-                fusion=''.join(newName)
+                fusion=transi[0]
             
 
             for i in statesList:
@@ -75,15 +83,13 @@ def determining(automate):
             
             if test==0:
                 continue
-            if test==1 :
-                namesList.append(fusion)
             test=0
 
             for i in newName :                                          #on va créer le dicto transi du nouvel état
                 for s in allStates :                                    #on compare chaque etat du nouvel état avec les etats déja enregistrés
                     if i==s.name:
                         if s.isFinal :                                  #une fusion d'états dont un final est finale
-                            IF=1                                      
+                            IF=True                                     
                         if len(newTransi)==0:                           #s'ils sont égaux et que le dictionnaire est vide on remplace juste
                             test=1
                         else :
@@ -91,26 +97,33 @@ def determining(automate):
 
                                 for Symb, Transi in newTransi.items():
                                     if symb==Symb:
-                                        Liste=Liste+Transi+transi
-                                        print(Liste)
+                                        if len(Liste)>0:
+                                            Liste=Liste+Transi+transi
+                                        else:
+                                            Liste=Transi+transi
                                         Liste=unify(Liste)
-                                        print(Liste)
                                         Liste=ordo(allStates,Liste)
-                                        print(Liste)
                                         newTransi.update({Symb:Liste})
                                         Liste=[]
-                                        print (newTransi)
                                         test=1
                                 if test==0 :                            #si non on ajoute simplement le symbole et ses valeurs
                                     newTransi.update({symb : transi})
                                 test=0
                         if test==1:
                             newTransi.update(s.transitions)
-                            print(newTransi)
                         test=0
             newstate=State(fusion, False, IF, newTransi)
+            newTransi={}
             statesList.append(newstate)
             IF=False
+    for state in statesList :
+        for symbs, transi in state.transitions.items():
+            if len(transi)>1:
+                state.transitions.update({symb : ['_'.join(transi)]})
+    for state in statesList :
+        print(state.name)
+        print(state.transitions)
+        print('\n')
     return Automate(automate.alphabet, statesList, automate.name+"Determinised")
 
 
@@ -161,3 +174,11 @@ def ordo(Liste1, Liste2):
                         elif i+1<len(Liste2)-1 : 
                             i+=1
                         else:return Liste2
+
+
+
+#def main():
+#    isDeterminist(auto)
+
+#if __name__ == "__main__":
+#    main()
