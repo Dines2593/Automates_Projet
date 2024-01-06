@@ -47,13 +47,13 @@ def determining(automate):
     newTransi = {}  #transition d'un nouvel état fusion
     Liste = []
 
-    namesList=[]  #liste de strings, chp
+    #namesList=[]  #liste de strings, chp
     
     allStates = allStates + automate.states
     statesList.append(automate.states[0])  # Ajout du premier etat de l'automate
 
 
-    namesList.append(automate.states[0].name)
+    #namesList.append(automate.states[0].name)
 
 
     for state in statesList:
@@ -88,7 +88,7 @@ def determining(automate):
             test=0
 
             finalState = False  
-            for i in newName :  #on va créer le dicto transi du nouvel état
+            for i in newName :  #on va créer le dico transi du nouvel état
                 for s in allStates :  #on compare chaque etat du nouvel état avec les etats déja enregistrés
                     if i==s.name:
                         if s.isFinal :  #une fusion d'états dont un final est finale
@@ -100,11 +100,7 @@ def determining(automate):
 
                                 for Symb, Transi in newTransi.items():
                                     if symb == Symb:
-                                        if len(Liste) > 0:
-                                            Liste = Liste + Transi + transi
-                                            print("test")
-                                        else:
-                                            Liste = Transi + transi
+                                        Liste = Transi + transi
                                         Liste = unify(Liste)
                                         Liste = ordo(allStates,Liste)
                                         newTransi.update({Symb:Liste})
@@ -121,14 +117,14 @@ def determining(automate):
             statesList.append(newstate)
             
     for state in statesList :
-        for symbs, transi in state.transitions.items():
+        for symb, transi in state.transitions.items():
             if len(transi)>1:
                 state.transitions.update({symb : ['_'.join(transi)]})
     for state in statesList :
         print(state.name)
         print(state.transitions)
         print('\n')
-    return Automate(automate.alphabet, statesList, automate.name+"Determinised")
+    return Automate(automate.alphabet, statesList, automate.name+"_Determinised")
 
 def unify(liste) : #supprime les doublons dans les liste de noms d'états
     i=0
