@@ -1,14 +1,20 @@
 from classes import Automate, State
 
 
-#alphabet = ['a', 'b']
+alphabet = ['a', 'b']
 
-#q0 = State('q0', True, False, {'a':['q1','q3'], 'b':['q1']})
-#q1 = State('q1', False, False, {'a':['q2'], 'b':['q1']})
-#q2 = State('q2', False, True, {'a': ['q2']})
-#q3 = State('q3', False, True, {'a':['q3']})
+q0 = State('q0', True, False, {'a':['q1','q3'], 'b':['q1']})
+q1 = State('q1', False, False, {'a':['q2'], 'b':['q1']})
+q2 = State('q2', False, True, {'a': ['q2']})
+q3 = State('q3', False, True, {'a':['q3']})
 
-#auto  = Automate(alphabet, [q0, q1, q2, q3],"auto")
+auto  = Automate(alphabet, [q0, q1, q2, q3],"auto")
+
+r0 = State('r0', True, False, {'a' :['r0'], 'b' : ['r0', 'r1']})
+r1 = State('r1', False, False, {'a': ['r2'], 'b': ['r2']})
+r2 = State('r2', False, True, {'a': ['r2'], 'b': ['r2']})
+
+auto2 = Automate(alphabet, [r0, r1, r2], "auto2")
 
 def isDeterminist(automate):
     count=0
@@ -33,22 +39,18 @@ def isDeterminist(automate):
                 case _:print("Le choix n'existe pas, veuillez rééssayer.\n")
 
 def determining(automate):
-    allStates=[]#liste des nouveaux et anciens états, utile pour ordonner les fusions d'états
-    statesList=[]#liste des états du nouvel automate
-    test=0
-    newName=[]#liste des noms d'états composant le nom d'un nouvel état fusion, me sert à chercher leurs transitions
-    fusion=''#nom d'un état fusion
-    newTransi={}#transition d'un nouvel état fusion
-    Liste=[]
+    allStates = []  #liste des nouveaux et anciens états, utile pour ordonner les fusions d'états
+    statesList = []  #liste des états du nouvel automate
+    test = 0
+    newName = []  #liste des noms d'états composant le nom d'un nouvel état fusion, me sert à chercher leurs transitions
+    fusion = ''  #nom d'un état fusion
+    newTransi = {}  #transition d'un nouvel état fusion
+    Liste = []
 
-
+    namesList=[]  #liste de strings, chp
     
-    namesList=[]#liste de strings, chp
-    
-
-    
-    allStates=allStates+automate.states
-    statesList.append(automate.states[0])
+    allStates = allStates + automate.states
+    statesList.append(automate.states[0])  # Ajout du premier etat de l'automate
 
 
     namesList.append(automate.states[0].name)
@@ -57,7 +59,7 @@ def determining(automate):
     for state in statesList:
 
         for s in allStates:
-            if state.name==s.name:
+            if state.name == s.name:
                 test=1
                 break
         if test==0:
@@ -66,13 +68,13 @@ def determining(automate):
 
 
         for symb, transi in state.transitions.items():
-            newName=list(transi)                                        #je recupere la liste des transitions de chaque état qui sera dans le nouvel automate, 1 par 1
+            newName = list(transi)  #je recupere la liste des transitions de chaque état qui sera dans le nouvel automate, 1 par 1
             if len(newName)>1 :
-                newName=unify(newName)
-                newName=ordo(allStates, newName)
-                fusion='_'.join(newName)
+                newName = unify(newName)
+                newName = ordo(allStates, newName)
+                fusion = '_'.join(newName)  # Creer un string contenant tout les elements de newName avec '_' entre chaque element
             else :
-                fusion=transi[0]
+                fusion = transi[0]
             
 
             for i in statesList:
@@ -85,37 +87,39 @@ def determining(automate):
                 continue
             test=0
 
-            for i in newName :                                          #on va créer le dicto transi du nouvel état
-                for s in allStates :                                    #on compare chaque etat du nouvel état avec les etats déja enregistrés
+            finalState = False  
+            for i in newName :  #on va créer le dicto transi du nouvel état
+                for s in allStates :  #on compare chaque etat du nouvel état avec les etats déja enregistrés
                     if i==s.name:
-                        if s.isFinal :                                  #une fusion d'états dont un final est finale
-                            IF=True                                     
-                        if len(newTransi)==0:                           #s'ils sont égaux et que le dictionnaire est vide on remplace juste
-                            test=1
+                        if s.isFinal :  #une fusion d'états dont un final est finale
+                            finalState = True                                     
+                        if len(newTransi) == 0:  #s'ils sont égaux et que le dictionnaire est vide on remplace juste
+                            test = 1
                         else :
                             for symb, transi in s.transitions.items() : #si non, pour chaque symbole des vieux états, si le symbole existe deja dans le dico on fusionne les transis
 
                                 for Symb, Transi in newTransi.items():
-                                    if symb==Symb:
-                                        if len(Liste)>0:
-                                            Liste=Liste+Transi+transi
+                                    if symb == Symb:
+                                        if len(Liste) > 0:
+                                            Liste = Liste + Transi + transi
+                                            print("test")
                                         else:
-                                            Liste=Transi+transi
-                                        Liste=unify(Liste)
-                                        Liste=ordo(allStates,Liste)
+                                            Liste = Transi + transi
+                                        Liste = unify(Liste)
+                                        Liste = ordo(allStates,Liste)
                                         newTransi.update({Symb:Liste})
                                         Liste=[]
                                         test=1
                                 if test==0 :                            #si non on ajoute simplement le symbole et ses valeurs
                                     newTransi.update({symb : transi})
                                 test=0
-                        if test==1:
+                        if test == 1:
                             newTransi.update(s.transitions)
-                        test=0
-            newstate=State(fusion, False, IF, newTransi)
+                        test = 0
+            newstate=State(fusion, False, finalState, newTransi)
             newTransi={}
             statesList.append(newstate)
-            IF=False
+            
     for state in statesList :
         for symbs, transi in state.transitions.items():
             if len(transi)>1:
@@ -125,23 +129,6 @@ def determining(automate):
         print(state.transitions)
         print('\n')
     return Automate(automate.alphabet, statesList, automate.name+"Determinised")
-
-
-
-            
-           
-            
-
-
-            
-
-
-
-                
-
-
-
-
 
 def unify(liste) : #supprime les doublons dans les liste de noms d'états
     i=0
@@ -182,3 +169,6 @@ def ordo(Liste1, Liste2):
 
 #if __name__ == "__main__":
 #    main()
+
+auto2 = isDeterminist(auto2)
+isDeterminist(auto2)
