@@ -27,16 +27,15 @@ states = [q0, q1, q2, q3]
 
 automate = Automate(alphabet, states, "automate")
 
-
-CAEF = automate
 def make_completion(automate):
-    for state in CAEF.states:
+# Function to create a completion automate, every final state of the automata is reversed
+    for state in automate.states:  # avant : for state in CAEF.states:
         state.isFinal = not state.isFinal
     return automate
 
 
 def print_states(automate):
-    for state in states:
+    for state in automate.states:  # avant : for state in states :
         print(f"État : {state.name}")
         print(f"Transitions : {state.transitions}")
         print(f"Est initial : {state.isInitial}")
