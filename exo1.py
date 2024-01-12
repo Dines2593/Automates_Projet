@@ -64,15 +64,6 @@ class Question1:
         self.printAEF(automat)
         
 
-alphabet = ['a', 'b']
-
-q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
-q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
-q2 = State('q2', False, True, {})
-q3 = State('q3', False, True, {'a':'q3'})
-
-auto  = Automate(alphabet, [q0, q1, q2, q3])
-
 def find_state_by_name(automat, name):
     for state in automat.states:
         if state.name == name:
@@ -98,4 +89,12 @@ def main():
     #question1.menu()
 
 if __name__ == "__main__":
+    alphabet = ['a', 'b']
+
+    q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
+    q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
+    q2 = State('q2', False, True, {})
+    q3 = State('q3', False, True, {'a':'q3'})
+
+    auto  = Automate(alphabet, [q0, q1, q2, q3])
     main()

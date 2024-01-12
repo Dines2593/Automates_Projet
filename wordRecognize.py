@@ -37,22 +37,24 @@ def wordRecognize(automata, word):
     if check == 0:  # If there's no initial state in the automata...
         print("There is no initial state, the automata can't recognize the word")
 
-# Example
-alphabet = ['a', 'b']
 
-q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
-q1 = State('q1', False, False, {'a': ['q2']})
-q2 = State('q2', False, True, {'a': ['q2']})
-q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
-q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
-q5 = State('q5', False, False, {'b': ['q4']})
+if __name__ == "__main__":
+    # Example
+    alphabet = ['a', 'b']
 
-automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
+    q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
+    q1 = State('q1', False, False, {'a': ['q2']})
+    q2 = State('q2', False, True, {'a': ['q2']})
+    q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
+    q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
+    q5 = State('q5', False, False, {'b': ['q4']})
 
-r0 = State('r0', True, False, {'a': ['r0'], 'b': ['r1']})
-r1 = State('r1', False, True, {'a': ['r0'], 'b': ['r1']})
-r2 = State('r2', True, True, {'a': ['r1'], 'b': ['r0']})
+    automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
 
-automate2 = Automate(alphabet, [r0, r1, r2], 'automate2')
+    r0 = State('r0', True, False, {'a': ['r0'], 'b': ['r1']})
+    r1 = State('r1', False, True, {'a': ['r0'], 'b': ['r1']})
+    r2 = State('r2', True, True, {'a': ['r1'], 'b': ['r0']})
 
-wordRecognize(automate2, "aab")
+    automate2 = Automate(alphabet, [r0, r1, r2], 'automate2')
+
+    wordRecognize(automate2, "aab")

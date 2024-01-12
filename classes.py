@@ -70,23 +70,22 @@ class State:
         self.isFinal = isFinal
         self.transitions = transitions
 
-"""
-# Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
+if __name__ == "__main__":
+    # Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
 
-alphabet = ['a', 'b']
+    alphabet = ['a', 'b']
 
-q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
-q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
-q2 = State('q2', False, True, {})
-q3 = State('q3', False, True, {'a':'q3'})
+    q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
+    q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
+    q2 = State('q2', False, True, {})
+    q3 = State('q3', False, True, {'a':'q3'})
 
-a = Automate(alphabet, [q0, q1, q2, q3], "test")
+    a = Automate(alphabet, [q0, q1, q2, q3], "test")
 
-a.to_json()  # Create the 'test.json'
+    a.to_json()  # Create the 'test.json'
 
-a.del_json()  # Delete the 'test.json' file
+    a.del_json()  # Delete the 'test.json' file
 
-"""
 
 
 

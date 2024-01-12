@@ -1,18 +1,6 @@
 from classes import Automate
 from classes import State
 
-# exemple automata
-alphabet = ['a', 'b']
-
-q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
-q1 = State('q1', False, False, {'a': ['q2']})
-q2 = State('q2', False, True, {'a': ['q2']})
-q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
-q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
-q5 = State('q5', False, False, {})
-
-automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
-
 # Function to make an automata complete
 def make_complete(automate):
     if is_complete(automate) == True:
@@ -60,15 +48,27 @@ def print_states(automate):
             print(f"Est final : {state.isFinal}")
             print()
 
+if __name__ == "__main__":
+    # exemple automata
+    alphabet = ['a', 'b']
 
-print("États de l'automate avant la complétion :")
-print_states(automate)
-print("\n")
-automate=make_complete(automate)
-automate=make_complete(automate)
-print("États de l'automate après la complétion :")
-print("\n")
-print_states(automate)
+    q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
+    q1 = State('q1', False, False, {'a': ['q2']})
+    q2 = State('q2', False, True, {'a': ['q2']})
+    q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
+    q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
+    q5 = State('q5', False, False, {})
+
+    automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
+
+    print("États de l'automate avant la complétion :")
+    print_states(automate)
+    print("\n")
+    automate=make_complete(automate)
+    automate=make_complete(automate)
+    print("États de l'automate après la complétion :")
+    print("\n")
+    print_states(automate)
 
 
 

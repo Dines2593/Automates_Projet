@@ -44,20 +44,21 @@ def print_states(result_states):
             print(f"Est final : {state.isFinal}")
             print()
 
-# Example
-alphabet = ['a', 'b']
+if __name__ == "__main__":
+    # Example
+    alphabet = ['a', 'b']
 
-q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
-q1 = State('q1', False, False, {'a': ['q2']})
-q2 = State('q2', False, True, {'a': ['q2']})
-q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
-q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
-q5 = State('q5', False, False, {})
+    q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
+    q1 = State('q1', False, False, {'a': ['q2']})
+    q2 = State('q2', False, True, {'a': ['q2']})
+    q3 = State('q3', False, True, {'a': ['q3'], 'b': ['q5']})
+    q4 = State('q4', False, False, {'a': ['q2'], 'b': ['q1']})
+    q5 = State('q5', False, False, {})
 
-automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
+    automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
 
-# Appel de la fonction emonde
-result_states = emonde(automate)
+    # Appel de la fonction emonde
+    result_states = emonde(automate)
 
-# Affichage de l'automate émondé
-print_states(result_states)
+    # Affichage de l'automate émondé
+    print_states(result_states)

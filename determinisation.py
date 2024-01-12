@@ -1,21 +1,5 @@
 from classes import Automate, State
 
-
-alphabet = ['a', 'b']
-
-q0 = State('q0', True, False, {'a':['q1','q3'], 'b':['q1']})
-q1 = State('q1', False, False, {'a':['q2'], 'b':['q1']})
-q2 = State('q2', False, True, {'a': ['q2']})
-q3 = State('q3', False, True, {'a':['q3']})
-
-auto  = Automate(alphabet, [q0, q1, q2, q3],"auto")
-
-r0 = State('r0', True, False, {'a' :['r0'], 'b' : ['r0', 'r1']})
-r1 = State('r1', False, False, {'a': ['r2'], 'b': ['r2']})
-r2 = State('r2', False, True, {'a': ['r2'], 'b': ['r2']})
-
-auto2 = Automate(alphabet, [r0, r1, r2], "auto2")
-
 def isDeterminist(automate):
     count=0
     chogoice=0
@@ -158,13 +142,21 @@ def ordo(Liste1, Liste2):
                             i+=1
                         else:return Liste2
 
+if __name__ == "__main__":
+    alphabet = ['a', 'b']
 
+    q0 = State('q0', True, False, {'a':['q1','q3'], 'b':['q1']})
+    q1 = State('q1', False, False, {'a':['q2'], 'b':['q1']})
+    q2 = State('q2', False, True, {'a': ['q2']})
+    q3 = State('q3', False, True, {'a':['q3']})
 
-#def main():
-#    isDeterminist(auto)
+    auto  = Automate(alphabet, [q0, q1, q2, q3],"auto")
 
-#if __name__ == "__main__":
-#    main()
+    r0 = State('r0', True, False, {'a' :['r0'], 'b' : ['r0', 'r1']})
+    r1 = State('r1', False, False, {'a': ['r2'], 'b': ['r2']})
+    r2 = State('r2', False, True, {'a': ['r2'], 'b': ['r2']})
 
-auto2 = isDeterminist(auto2)
-isDeterminist(auto2)
+    auto2 = Automate(alphabet, [r0, r1, r2], "auto2")
+
+    auto2 = isDeterminist(auto2)
+    isDeterminist(auto2)

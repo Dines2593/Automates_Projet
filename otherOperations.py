@@ -14,18 +14,7 @@ class State:
         self.isInitial = isInitial
         self.isFinal = isFinal
         self.transitions = transitions
-        
-alphabet = ['a', 'b']
-
-
-q0 = State("q0", True, False, {"a": "q3", "b": "q1"})
-q1 = State("q1", False, False, {"a": "q1", "b": "q2"})
-q2 = State("q2", False, True, {"a": "q7", "b": "q4"})
-q3 = State("q3", False, True, {"a": "q7"})
-
-states = [q0, q1, q2, q3]
-
-automate = Automate(alphabet, states, "automate")
+    
 
 def make_completion(automate):
 # Function to create a completion automate, every final state of the automata is reversed
@@ -114,8 +103,6 @@ def concatenate_automate(automatonA, automatonB):
 
     return concatenated_automaton
 
-
-
 def print_states(automate):
     for state in automate.states:  # avant : for state in states :
         print(f"État : {state.name}")
@@ -123,11 +110,23 @@ def print_states(automate):
         print(f"Est initial : {state.isInitial}")
         print(f"Est final : {state.isFinal}")
 
-print("États de l'automate avant la complétion :")
-print_states(automate)
-print("\n")
-automate2 = make_completion(automate)
-print("États de l'automate après la complétion :")
-print("\n")
-print_states(automate2)
+if __name__ == "__main__":
+    alphabet = ['a', 'b']
+
+
+    q0 = State("q0", True, False, {"a": "q3", "b": "q1"})
+    q1 = State("q1", False, False, {"a": "q1", "b": "q2"})
+    q2 = State("q2", False, True, {"a": "q7", "b": "q4"})
+    q3 = State("q3", False, True, {"a": "q7"})
+
+    states = [q0, q1, q2, q3]
+
+    automate = Automate(alphabet, states, "automate")
+    print("États de l'automate avant la complétion :")
+    print_states(automate)
+    print("\n")
+    automate2 = make_completion(automate)
+    print("États de l'automate après la complétion :")
+    print("\n")
+    print_states(automate2)
 

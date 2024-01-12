@@ -1,25 +1,24 @@
 import json 
 import os
-import networkx as nx
+# import networkx as nx
 import matplotlib.pyplot as plt
 
-from classes import Automate
-from classes import State
+from classes import Automate, State
 
-from completion import *
-from determinisation import *
-from display import *
-from manipulate import *
-from otherOperations import *
-from pruned import *
-from wordRecognition import *
+from completion import is_complete, make_complete
+from determinisation import determining, isDeterminist, ordo, unify
+# from display import draw_automaton
+from manipulate import inputAlphabet, inputStates, printAEF, createAEF
+from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
+from pruned import emonde
+from wordRecognize import wordRecognize, wordRecognizeRec, stateFinder  
 
 #menu central
 def menu():
     Menu=1
     choice=""
     automate=Automate([],[],"")
-    automate=Automate([],[],"")
+    #automate=Automate([],[],"")
     while Menu==1:                      #We make the menu loop every time
         choice=""
         for i in range (10):
@@ -31,12 +30,22 @@ def menu():
         print("3. Exit")
         print("----------------------------")
 
-        option = input("Your choice>> ")
-        match option:
-            case "1":automate=createAEF()
-            case "2":choice=input("What is the name of the automata you want to import?"),automate.from_json(choice)
-            case "3":exit()
-            case _:print("Choice not valid.\n")
+        wrongChoice = True
+        while wrongChoice:
+            option = input("Your choice>> ")
+            match option:
+                case "1":
+                    automate=createAEF()
+                    wrongChoice = False
+                case "2":
+                    choice=input("What is the name of the automata you want to import?")
+                    automate.from_json(choice)
+                    wrongChoice = False
+
+                case "3":exit()
+                case _:print("Choice not valid. Please select the right choice.\n")
+
+
         while Menu==1:
             for i in range (10):
                 print("\n")  
@@ -54,7 +63,9 @@ def menu():
                 case "1":verif(automate)
                 case "2":operation(automate)
                 case "3":Menu=0
-                case "4":automate.del_json, Menu=0
+                case "4":
+                    automate.del_json
+                    Menu=0
                 case "5":automate.to_json
                 case _:print("Choice not valid.\n")
         Menu=1
@@ -75,7 +86,9 @@ def new_automate ():
             option = input("Your choice>> ")
             match option:
                 case "1":automate=createAEF()
-                case "2":choice=input("What is the name of the automata you want to import?"),automate.from_json(choice)
+                case "2":
+                    choice=input("What is the name of the automata you want to import?")
+                    automate.from_json(choice)
                 case _:print("Choice not valid.\n")
     return automate
 
@@ -105,13 +118,15 @@ def verif(automate):
 
         option = input("Your choice>> ")
         match option:
-            case "1":word=input("What word"),word_is_recognized(word, automate)
+            case "1":
+                word=input("What word")
+                wordRecognize(automate, word)
             case "2":is_complete(automate)
-            case "3":is_determinist()
-            case "4":
+            case "3":isDeterminist()
+            case "4": print("Inserer fonction pour identifier les langages reconnu par un automate")
             case "5":automate2=new_automate(),
-            case "6":
-            case "7":Menu=0
+            case "6": print("Inserer fonction pour extraire une expression regulière")
+            case "7": Menu=0
             case _:print("Choice not valid.")
 
 #menu pour acceder aux améliorations possibles
@@ -136,15 +151,21 @@ def operation(automate):
 
         option = input("Your choice>> ")
         match option:
-            case "1":
+            case "1": print("test")
             case "2":make_complete(automate)
-            case "3":make_determinist(automate)
+            case "3":determining(automate)  # Function to determin an automata
             case "4":emonde(automate)
-            case "5":automate2=new_automate,concatenate_automate(automate,automate2)
-            case "6":automate2=new_automate,cartesian_product(automate,automate2)
+            case "5":
+                automate2=new_automate
+                concatenate_automate(automate,automate2)
+            case "6":
+                automate2=new_automate
+                cartesian_product(automate,automate2)
             case "7":automate=mirror(automate.states,automate.alphabet,automate.name)
             case "8":make_completion(automate)
             case "9":Menu=0
             case _:print("Choice not valid")
 
-menu()
+if __name__ == "__main__":
+    menu()
+
