@@ -147,4 +147,4 @@ def operation(automate):
             case "9":Menu=0
             case _:print("Choice not valid")
 
-
+menu()
