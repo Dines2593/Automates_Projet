@@ -70,11 +70,7 @@ The project relies on the following dependencies:
 
 - `json`: For handling JSON serialization/deserialization.
 - `os`: For interacting with the file system.
-
-## Contributing
-
-Contributions to the project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
-
+  
 ## License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute it as per the terms of the license.
