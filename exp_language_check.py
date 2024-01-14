@@ -121,11 +121,12 @@ def get_language(a):
 
 def check_same_language(a, b):
     if(a.alphabet != b.alphabet):
-        return False
+        print(f"L'équivalence des automates {a.name} et {b.name} : {False}")
+        return 
     
     language_a = get_language(a)
     language_b = get_language(b)
-    return language_a == language_b
+    print(f"L'équivalence des automates {a.name} et {b.name} : {language_a == language_b}")
 
 #   Automate de test
 

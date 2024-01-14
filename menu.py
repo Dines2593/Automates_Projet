@@ -10,7 +10,7 @@ from manipulate import create_automat, edit_automat
 from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
 from pruned import emonde
 from wordRecognize import wordRecognize, wordRecognizeRec, stateFinder  
-from exp_language_check import get_expression, get_language
+from exp_language_check import get_expression, get_language, check_same_language
 
 #menu central
 def menu():
@@ -119,7 +119,9 @@ def verif(automate):
             case "2":is_complete(automate)
             case "3":isDeterminist()
             case "4": get_language(automate)
-            case "5": automate2=new_automate(),
+            case "5": 
+                automate2=new_automate()
+                check_same_language(automate, automate2),
             case "6": get_expression(automate)
             case "7": Menu=0
             case _:print("Choice not valid.")
