@@ -24,7 +24,7 @@ def wordRecognizeRec(automata, state, word):
                         return True         
     return False
 
-def wordRecognize(automata, word):
+def word_recognize(automata, word):
     # Function that will call the recursive function to check if the word is recognize, for EVERY initial state
     check = 0  # Value that will count the number of initial state
     for state in automata.states:  
@@ -57,4 +57,4 @@ if __name__ == "__main__":
 
     automate2 = Automate(alphabet, [r0, r1, r2], 'automate2')
 
-    wordRecognize(automate2, "aab")
+    word_recognize(automate2, "aab")
