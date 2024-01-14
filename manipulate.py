@@ -8,7 +8,10 @@ def printAEF(automat):
     print(f"Alphabet : {automat.alphabet}\n")
     print("Etats : ")
     for i in range(len(automat.states)):
-        print(f"( {automat.states[i].name} ); Transition : {automat.states[i].transitions}")
+        state = automat.states[i]
+        initial_marker = " (Initial)" if state.isInitial else ""
+        final_marker = " (Final)" if state.isFinal else ""
+        print(f"État {state.name}{initial_marker}{final_marker}; Transitions : {state.transitions}")
 
     print("\n")
 
