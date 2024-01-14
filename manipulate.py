@@ -4,7 +4,7 @@ from classes import Automate, State
 #Fonctions générique
 
 def printAEF(automat):
-    print(automat.name)
+    print(f"Nom de l'automate : {automat.name}")
     print(f"Alphabet : {automat.alphabet}\n")
     print("Etats : ")
     for i in range(len(automat.states)):
