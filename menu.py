@@ -125,7 +125,7 @@ def verif(automate):
                 word=input("What word")
                 word_recognize(automate, word)
             case "2":is_complete(automate)
-            case "3":is_determinist()
+            case "3":is_determinist(automate)
             case "4": get_language(automate)
             case "5": automate2=new_automate(),
             case "6": get_expression(automate)
