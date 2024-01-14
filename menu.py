@@ -1,17 +1,16 @@
 import json 
 import os
-# import networkx as nx
-import matplotlib.pyplot as plt
 
 from classes import Automate, State
 
 from completion import is_complete, make_complete
 from determinisation import determining, isDeterminist, ordo, unify
 # from display import draw_automaton
-from manipulate import inputAlphabet, inputStates, printAEF, createAEF
+from manipulate import create_automat, edit_automat
 from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
 from pruned import emonde
 from wordRecognize import wordRecognize, wordRecognizeRec, stateFinder  
+from exp_language_check import get_expression, get_language
 
 #menu central
 def menu():
@@ -35,7 +34,7 @@ def menu():
             option = input("Your choice>> ")
             match option:
                 case "1":
-                    automate=createAEF()
+                    automate=create_automat()
                     wrongChoice = False
                 case "2":
                     choice=input("What is the name of the automata you want to import?")
@@ -53,7 +52,7 @@ def menu():
             print("Select an option :")
             print("1. Verifications on an automata")
             print("2. Do an operation to an automata")
-            print("3. Use an other automata")
+            print("3. Use an other automata ")
             print("4. Delete the Automata")             #1-3
             print("5. Save the automata")               #1-4
             print("----------------------------")
@@ -85,17 +84,13 @@ def new_automate ():
 
             option = input("Your choice>> ")
             match option:
-                case "1":automate=createAEF()
+                case "1":automate=create_automat()
                 case "2":
                     choice=input("What is the name of the automata you want to import?")
                     automate.from_json(choice)
                 case _:print("Choice not valid.\n")
     return automate
 
-
-    
-
-    
 
 # menu pour acceder a toutes les verifications
 def verif(automate):
@@ -123,9 +118,9 @@ def verif(automate):
                 wordRecognize(automate, word)
             case "2":is_complete(automate)
             case "3":isDeterminist()
-            case "4": print("Inserer fonction pour identifier les langages reconnu par un automate")
-            case "5":automate2=new_automate(),
-            case "6": print("Inserer fonction pour extraire une expression regulière")
+            case "4": get_language(automate)
+            case "5": automate2=new_automate(),
+            case "6": get_expression(automate)
             case "7": Menu=0
             case _:print("Choice not valid.")
 
@@ -151,7 +146,7 @@ def operation(automate):
 
         option = input("Your choice>> ")
         match option:
-            case "1": print("test")
+            case "1": automate = edit_automat(automate)
             case "2":make_complete(automate)
             case "3":determining(automate)  # Function to determin an automata
             case "4":emonde(automate)

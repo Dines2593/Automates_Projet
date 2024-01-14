@@ -1,99 +1,203 @@
 from classes import Automate, State
-import os
 
 
-def menu():
-    choice = int(input("Que souhaitez vous effectuer ? \n 1 - Saisir un AEF \n 2 - Importer un AEF à partir d'un fichier \n 3 - Modifier un AEF \n 4 - Sauvegarder un AEF dans un fichier \n 5 - Supprimer un AEF \n "))
-    match choice:
-        case 1:print("Saisir un AEF\n"); createAEF()
-        case 2:print("Importer un AEF\n")
-        case 3:print("Modifier un AEF\n")
-        case 4:print("Sauvegarder un AEF\n")
-        case 5:print("Supprimer un AEF\n")
-        case _:print("Le choix n'existe pas, veuillez rééssayer.\n"); menu()
-
-def inputAlphabet():
-    can_input = True
-    result = []
-        
-    while can_input:
-        symbol = ""
-        while len(symbol) != 1:
-            symbol = input("Entrez un symbole valide de votre alphabet : ")
-        keep_input = int(input("Voulez vous continuez ? : 0=Non, 1=Oui : "))
-        result.append(symbol)
-        if keep_input : can_input = True
-        else : can_input = False
-
-    return result
-
-def inputStates(alphabet):
-    result = []
-    numOfStates = int(input("Veuillez entrer le nombre d'état de votre automate : "))
-    q0 = State('q0', True, False, {})
-    result.append(q0)
-    for i in range(1,numOfStates):
-        q = State(f'q{i}', False, False, {})
-        result.append(q)
-
-    choice_of_state = dict(zip( range(len(result)), [s.name for s in result]))
-        
-    for i in range(len(result)):
-        q = result[i]
-        if(i!=0) :
-            isFinal = int(input("L'état est-il final ? : 0=Non, 1=Oui"))
-            q.isFinal = bool(isFinal)
-        for symbol in alphabet:
-            can_add_transition = bool(int(input(f"Souhaitez vous créer une transition pour {symbol} ? : 0=Non, 1=Oui")))
-            if not can_add_transition : continue
-            else : 
-                transition_key = int(input(f"Quel transition souhaitez-vous ajouter pour le symbole {symbol} ? \n {choice_of_state} \n"))
-                q.transitions[symbol] = choice_of_state[transition_key]
-
-    return result
+#Fonctions générique
 
 def printAEF(automat):
+    print(automat.name)
     print(f"Alphabet : {automat.alphabet}\n")
     print("Etats : ")
     for i in range(len(automat.states)):
         print(f"( {automat.states[i].name} ); Transition : {automat.states[i].transitions}")
 
-def createAEF():
-    nom=input("How do you want to call the automate?")
-    alphabet = inputAlphabet()
-    states = inputStates(alphabet)
-    automat = Automate(alphabet, states, nom)
-    Print_states(automat)
-    return automat
-        
-def print_states(result_automate):
-    print(result_automate.alphabet)
-    for state in result_automate.states:
-        transitions_str = ', '.join([f"{symbol}: {transitions}" for symbol, transitions in state.transitions.items() if transitions])
-        if transitions_str or state.isInitial or state.isFinal:
-            print(f"État : {state.name}")
-            if transitions_str:
-                print(f"Transitions : {transitions_str}")
-            print(f"Est initial : {state.isInitial}")
-            print(f"Est final : {state.isFinal}")
-            print()
+    print("\n")
 
-def Print_states(automate):
-    print(f"Alphabet : {automate.alphabet}")
-    for state in automate.states:  # avant : for state in states :
-        print(f"État : {state.name}")
-        print(f"Transitions : {state.transitions}")
-        print(f"Est initial : {state.isInitial}")
-        print(f"Est final : {state.isFinal}")
+
+def get_state_by_name(target_name, states):
+    for state in states:
+        if state.name == target_name:
+            return state
+    return None
+
+def state_exists(state_name, state_array):
+    for state in state_array:
+        if state.name == state_name:
+            return True
+    return False
+
+def get_initial_state(states):
+    for state in states:
+        if state.isInitial:
+            return state
+    return None
+
+def get_final_states(states):
+    return [state for state in states if state.isFinal]
 
 
 
-if __name__ == "__main__":
-    alphabet = ['a', 'b']
+def create_automat():
+    states = []
+    alphabet = []
+    transitions = []  # Pour stocker les transitions dans une liste
 
-    q0 = State('q0', True, False, {'a':'q3', 'b':'q1'})
-    q1 = State('q1', False, False, {'a':'q1', 'b':'q2'})
-    q2 = State('q2', False, True, {})
-    q3 = State('q3', False, True, {'a':'q3'})
+    print("Tu as choisis 'Créer un AEF'.")
+    automate_name = input("Entrez le nom de l'automate : ")
 
-    auto  = Automate(alphabet, [q0, q1, q2, q3], "auto")
+    # Demander à l'utilisateur l'état initial et l'état final
+    initial_state_name = input("Entrez le seul état initial de l'automate : ")
+
+    # Vérification si l'utilisateur a entré plusieurs valeurs avec ','
+    if ',' in initial_state_name:
+        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        return
+    
+    initial_state = State(initial_state_name, True, False, {})
+    states.append(initial_state)
+
+    final_state_string = input("Entrez l'unique ou les états finaux de l'automate (bien séparé avec des virgules): ")
+    final_states = final_state_string.split(',')
+    
+    for state in final_states:
+        new_state = State(state, False, True, {})
+        states.append(new_state)
+
+    # Demander à l'utilisateur de saisir les transitions sous forme de matrice
+    print("\nEntrez les transitions de votre automate sous forme de matrice (séparez les éléments par des espaces) :")
+    print("Pour finir mettre 'ok'\n")
+    
+    
+    #on effectue une boucle tant qu'il n'appuie pas sur ok on continu
+    while True:
+        transition_input = input()
+        if transition_input == 'ok':
+            break
+        else: #et on regarde la forme 
+            transition_data = transition_input.split()
+            if len(transition_data) != 3:
+                print("\033[91mErreur : Format de transition invalide.\033[0m")
+            else:
+                transitions.append(transition_data)
+    #Création de l'automate en fonctions des données enregistrées dans les listes
+    for transition in transitions:
+        starting_state_name = transition[0]
+        ending_state_name = transition[1]
+
+        if not state_exists(starting_state_name, states):
+            #print("Il existe pas le starting")
+            new_starting_state = State(transition[0], False, False, {})
+            states.append(new_starting_state)
+        if not state_exists(ending_state_name, states):
+            #print("Il existe pas le ending")
+            new_ending_state = State(transition[1], False, False, {})
+            states.append(new_ending_state)
+
+        if not transition[2] in alphabet:
+            alphabet.append(transition[2])
+
+        updated_state = get_state_by_name(transition[0], states)
+        if transition[2] in updated_state.transitions:
+            updated_state.transitions[transition[2]].append(transition[1])
+        else:
+            updated_state.transitions[transition[2]] = []
+            updated_state.transitions[transition[2]].append(transition[1])
+    
+    new_auto = Automate(alphabet,states, automate_name)
+    print("Automate créé avec succès !")
+    return new_auto
+   
+# Fonction modify_automate
+
+def edit_automat(automat):
+    print("Tu as choisi 'Modifier un AEF'.")
+    
+    states = []
+    alphabet = []
+    transitions = []  # Pour stocker les transitions dans une liste
+
+    automate_name = input(f"Entrez le nom de l'automate (actuel : {automat.name}): ")
+
+    # Demander à l'utilisateur l'état initial et l'état final
+    initial_state_name = input(f"Entrez le seul état initial de l'automate (actuel : {get_initial_state(automat.states).name}) : ")
+
+    # Vérification si l'utilisateur a entré plusieurs valeurs avec ','
+    if ',' in initial_state_name:
+        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        return
+    
+    initial_state = State(initial_state_name, True, False, {})
+    states.append(initial_state)
+
+    final_state_string = input(f"Entrez l'unique ou les états finaux de l'automate (actuel(s) : {', '.join([state.name for state in get_final_states(automat.states)])}) (bien séparé avec des virgules) : ")
+    final_states = final_state_string.split(',')
+    
+    for state in final_states:
+        new_state = State(state, False, True, {})
+        states.append(new_state)
+
+    # Demander à l'utilisateur de saisir les transitions sous forme de matrice
+    print("\nEntrez les transitions de votre automate sous forme de matrice (séparez les éléments par des espaces) :")
+    print("|!|\nPrenez conscience que modifier un automate revient a recommencer toute une procédure similaire à la création, ce qui entraine la réinitialisation de celui ci.\n Pour stopper le processus de modification, entrez 'stop'.\n|!|")
+    print("Pour finir mettre 'ok'\n")
+    
+    
+    #on effectue une boucle tant qu'il n'appuie pas sur ok on continu
+    while True:
+        transition_input = input()
+        if transition_input == 'ok':
+            break
+        if transition_input == 'stop':
+            return
+        else: #et on regarde la forme 
+            transition_data = transition_input.split()
+            if len(transition_data) != 3:
+                print("\033[91mErreur : Format de transition invalide.\033[0m")
+            else:
+                transitions.append(transition_data)
+    #Création de l'automate en fonctions des données enregistrées dans les listes
+    for transition in transitions:
+        starting_state_name = transition[0]
+        ending_state_name = transition[1]
+
+        if not state_exists(starting_state_name, states):
+            #print("Il existe pas le starting")
+            new_starting_state = State(transition[0], False, False, {})
+            states.append(new_starting_state)
+        if not state_exists(ending_state_name, states):
+            #print("Il existe pas le ending")
+            new_ending_state = State(transition[1], False, False, {})
+            states.append(new_ending_state)
+
+        if not transition[2] in alphabet:
+            alphabet.append(transition[2])
+
+        updated_state = get_state_by_name(transition[0], states)
+        if transition[2] in updated_state.transitions:
+            updated_state.transitions[transition[2]].append(transition[1])
+        else:
+            updated_state.transitions[transition[2]] = []
+            updated_state.transitions[transition[2]].append(transition[1])
+    
+    new_auto = Automate(alphabet,states, automate_name)
+    print("Automate modifié avec succès !")
+    return new_auto
+
+"""
+def deleteAEF():
+    if(len(AUTOMATES) == 0):
+        print("Vous n'avez aucun automate dans cette session. Veuillez en créer un dans un premier temps. \n")
+        return
+    for i in range(len(AUTOMATES)):
+        print(f"AUTOMATE N°{i+1} : \n")
+        printAEF(AUTOMATES[i])
+    
+    chosen_aef = int(input("Veuillez entrer le numéro de l'automate que vous souhaitez modifier : "))
+
+    if not (0<=chosen_aef-1<=len(AUTOMATES)):
+        chosen_aef = int(input("Numéro invalide. Veuillez entrer le numéro de l'automate que vous souhaitez modifier : "))
+    AUTOMATES.pop(chosen_aef-1)
+    
+    for i in range(len(AUTOMATES)):
+        print(f"AUTOMATE N°{i+1} : \n")
+        printAEF(AUTOMATES[i])
+"""
