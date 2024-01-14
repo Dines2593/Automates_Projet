@@ -39,7 +39,7 @@ class TestAutomate(unittest.TestCase):
         automate = Automate(alphabet, states, name)
        
        #ACCEPTE
-        self.assertTrue(automate.accept("aba"))  # L'automate devrait accepter "ab"
+        self.assertTrue(automate.accept("aba"))  # L'automate doit accepter "aba"
 
 
         # REFUS
