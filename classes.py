@@ -28,9 +28,9 @@ class Automate:
     def to_json(self):
         # Sérialiser l'objet en JSON et l'enregistrer dans un fichier
         automate_dict = self.to_dict()
-        if(not os.path.exists("./mes_automates")):
-            os.makedirs("./mes_automates")
-        with open("./mes_automates/"+self.name+".json", 'w') as json_file:
+        if(not os.path.exists("./my_automata")):
+            os.makedirs("./my_automata")
+        with open("./my_automata/"+self.name+".json", 'w') as json_file:
             json.dump(automate_dict, json_file, indent=4)
             print ("The file has been created")
     
@@ -38,11 +38,11 @@ class Automate:
     # Function to delete a json file
     def del_json(self):  
         # Verify if the path exist
-        if(not os.path.exists("./mes_automates")):
+        if(not os.path.exists("./my_automata")):
             print("The automata file is empty")
         else:
             try:  
-                os.remove("./mes_automates/"+self.name+".json")  # Delete the .json file
+                os.remove("./my_automata/"+self.name+".json")  # Delete the .json file
                 print("The file has been removed")
             except:
                 print("The file does not exist !")  # If there's no .json file 
@@ -60,7 +60,7 @@ class Automate:
     @classmethod
     def from_json(cls, filename):
         # Lire les données du fichier JSON et créer une instance de la classe Automate
-        with open("./mes_automates/"+filename+".json", 'r') as json_file:
+        with open("./my_automata/"+filename+".json", 'r') as json_file:
             automate_data = json.load(json_file)
         return cls.from_dict(automate_data)
     """
@@ -83,9 +83,9 @@ def from_dict(automate_dict):
 
 def from_json(filename):
         # Lire les données du fichier JSON et créer une instance de la classe Automate
-        if not os.path.exists("./mes_automates/"+filename+".json"):
+        if not os.path.exists("./my_automata/"+filename+".json"):
             return None
-        with open("./mes_automates/"+filename+".json", 'r') as json_file:
+        with open("./my_automata/"+filename+".json", 'r') as json_file:
             automate_data = json.load(json_file)
         return from_dict(automate_data)
 
