@@ -4,14 +4,14 @@ from classes import Automate, State
 #Fonctions générique
 
 def printAEF(automat):
-    print(f"Nom de l'automate : {automat.name}")
+    print(f"Name of the automaton : {automat.name}")
     print(f"Alphabet : {automat.alphabet}\n")
-    print("Etats : ")
+    print("States : ")
     for i in range(len(automat.states)):
         state = automat.states[i]
         initial_marker = " (Initial)" if state.isInitial else ""
         final_marker = " (Final)" if state.isFinal else ""
-        print(f"État {state.name}{initial_marker}{final_marker}; Transitions : {state.transitions}")
+        print(f"State {state.name}{initial_marker}{final_marker}; Transitions : {state.transitions}")
 
     print("\n")
 
@@ -44,28 +44,28 @@ def create_automat():
     alphabet = []
     transitions = []  # Pour stocker les transitions dans une liste
 
-    print("Tu as choisis 'Créer un AEF'.")
-    automate_name = input("Entrez le nom de l'automate : ")
+    print("You choosed : 'Create an automaton'.")
+    automate_name = input("Enter the name of the automaton : ")
 
     # Demander à l'utilisateur l'état initial et l'état final
-    initial_state_name = input("Entrez le seul état initial de l'automate : ")
+    initial_state_name = input("Enter the initial state of the automaton (Only one) : ")
 
     # Vérification si l'utilisateur a entré plusieurs valeurs avec ','
     if ',' in initial_state_name:
-        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
-        return
+        print("\033[91mError : A finite automaton only have one initial state and several final state.\033[0m\n")
+        return                  
         
     if ' ' in initial_state_name:
-        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        print("\033[91mError : A finite automaton only have one initial state and several final state.\033[0m\n")
         return
         
     initial_state = State(initial_state_name, True, False, {})
     states.append(initial_state)
 
-    final_state_string = input("Entrez l'unique ou les états finaux de l'automate (bien séparé avec des virgules): ")
+    final_state_string = input("Enter the final state(s) of the automaton (separated with comma ','): ")
         
     if ' ' in final_state_string:
-        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        print("\033[91mError : A finite automaton only have one initial state and several final state.\033[0m\n")
         return
         
     final_states = final_state_string.split(',')
@@ -75,8 +75,8 @@ def create_automat():
         states.append(new_state)
 
     # Demander à l'utilisateur de saisir les transitions sous forme de matrice
-    print("\nEntrez les transitions de votre automate sous forme de matrice (séparez les éléments par des espaces) :")
-    print("Pour finir mettre 'ok'\n")
+    print("\nEnter your automaton transitions in matrix form (separated with space ' ') :")
+    print("To finish the process put 'ok'\n")
     
     
     #on effectue une boucle tant qu'il n'appuie pas sur ok on continu
@@ -87,7 +87,7 @@ def create_automat():
         else: #et on regarde la forme 
             transition_data = transition_input.split()
             if len(transition_data) != 3:
-                print("\033[91mErreur : Format de transition invalide.\033[0m")
+                print("\033[91mError : Invalid transition format.\033[0m")
             else:
                 transitions.append(transition_data)
     #Création de l'automate en fonctions des données enregistrées dans les listes
@@ -115,32 +115,32 @@ def create_automat():
             updated_state.transitions[transition[2]].append(transition[1])
     
     new_auto = Automate(alphabet,states, automate_name)
-    print("Automate créé avec succès !")
+    print("Automaton created successfully !")
     return new_auto
    
 # Fonction modify_automate
 
 def edit_automat(automat):
-    print("Tu as choisi 'Modifier un AEF'.")
+    print("You choosed 'Modify an automaton'.")
     
     states = []
     alphabet = []
     transitions = []  # Pour stocker les transitions dans une liste
 
-    automate_name = input(f"Entrez le nom de l'automate (actuel : {automat.name}): ")
+    automate_name = input(f"Enter the automaton's name (current name : {automat.name}): ")
 
     # Demander à l'utilisateur l'état initial et l'état final
-    initial_state_name = input(f"Entrez le seul état initial de l'automate (actuel : {get_initial_state(automat.states).name}) : ")
+    initial_state_name = input(f"Enter the initial state of the automaton (Only one) (current state : {get_initial_state(automat.states).name}) : ")
 
     # Vérification si l'utilisateur a entré plusieurs valeurs avec ','
     if ',' in initial_state_name:
-        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        print("\033[91mError : A finite automaton only have one initial state and several final state.\033[0m\n")
         return
     
     initial_state = State(initial_state_name, True, False, {})
     states.append(initial_state)
 
-    final_state_string = input(f"Entrez l'unique ou les états finaux de l'automate (actuel(s) : {', '.join([state.name for state in get_final_states(automat.states)])}) (bien séparé avec des virgules) : ")
+    final_state_string = input(f"Enter the final state(s) of the automaton (current state(s) : {', '.join([state.name for state in get_final_states(automat.states)])}) (separated with comma ',') : ")
     final_states = final_state_string.split(',')
     
     for state in final_states:
@@ -148,10 +148,9 @@ def edit_automat(automat):
         states.append(new_state)
 
     # Demander à l'utilisateur de saisir les transitions sous forme de matrice
-    print("\nEntrez les transitions de votre automate sous forme de matrice (séparez les éléments par des espaces) :")
-    print("|!|\nPrenez conscience que modifier un automate revient a recommencer toute une procédure similaire à la création, ce qui entraine la réinitialisation de celui ci.\n Pour stopper le processus de modification, entrez 'stop'.\n|!|")
-    print("Pour finir mettre 'ok'\n")
-    
+    print("\nEnter your automaton transitions in matrix form (separated with space ' ') :")
+    print("|!|\nBy modifying this automaton, you create a new one. The old one will be erased.\nTo stop the modification process, please put 'stop'.\n|!|")
+    print("To finish the process put 'ok'\n")
     
     #on effectue une boucle tant qu'il n'appuie pas sur ok on continu
     while True:
@@ -159,11 +158,12 @@ def edit_automat(automat):
         if transition_input == 'ok':
             break
         if transition_input == 'stop':
-            return
+            print("The editing is canceled")
+            return automat
         else: #et on regarde la forme 
             transition_data = transition_input.split()
             if len(transition_data) != 3:
-                print("\033[91mErreur : Format de transition invalide.\033[0m")
+                print("\033[91mError : Invalid transition format.\033[0m")
             else:
                 transitions.append(transition_data)
     #Création de l'automate en fonctions des données enregistrées dans les listes
@@ -191,7 +191,7 @@ def edit_automat(automat):
             updated_state.transitions[transition[2]].append(transition[1])
     
     new_auto = Automate(alphabet,states, automate_name)
-    print("Automate modifié avec succès !")
+    print("Automaton successfully modified !")
     return new_auto
 
 """
