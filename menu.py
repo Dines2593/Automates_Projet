@@ -115,9 +115,9 @@ def verif(automate):
         match option:
             case "1":
                 word=input("What word")
-                wordRecognize(automate, word)
+                word_recognize(automate, word)
             case "2":is_complete(automate)
-            case "3":isDeterminist(automate)
+            case "3":is_determinist(automate)
             case "4": get_language(automate)
             case "5": 
                 automate2=new_automate()
@@ -150,7 +150,7 @@ def operation(automate):
         match option:
             case "1": automate = edit_automat(automate)
             case "2":make_complete(automate)
-            case "3":determining(automate)  # Function to determin an automata
+            case "3":make_determinist(automate)  # Function to determin an automata
             case "4":emonde(automate)
             case "5":
                 automate2=new_automate
