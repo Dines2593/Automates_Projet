@@ -4,12 +4,12 @@ import os
 from classes import Automate, State, from_json, from_dict
 
 from completion import is_complete, make_complete
-from determinisation import determining, isDeterminist, ordo, unify
+from determinisation import make_determinist, is_determinist, ordo, unify
 # from display import draw_automaton
 from manipulate import create_automat, edit_automat
 from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
 from pruned import emonde
-from wordRecognize import wordRecognize, wordRecognizeRec, stateFinder  
+from wordRecognize import word_recognize, wordRecognizeRec, stateFinder  
 from exp_language_check import get_expression, get_language
 
 #menu central
@@ -122,9 +122,9 @@ def verif(automate):
         match option:
             case "1":
                 word=input("What word")
-                wordRecognize(automate, word)
+                word_recognize(automate, word)
             case "2":is_complete(automate)
-            case "3":isDeterminist()
+            case "3":is_determinist()
             case "4": get_language(automate)
             case "5": automate2=new_automate(),
             case "6": get_expression(automate)
@@ -157,7 +157,7 @@ def operation(automate):
                 automate = edit_automat()
                 print(automate.name)
             case "2":make_complete(automate)
-            case "3":determining(automate)  # Function to determin an automata
+            case "3":make_determinist(automate)  # Function to determin an automata
             case "4":emonde(automate)
             case "5":
                 automate2=new_automate() 
@@ -174,4 +174,3 @@ def operation(automate):
 
 if __name__ == "__main__":
     menu()
-
