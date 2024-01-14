@@ -49,8 +49,8 @@ def apply_arden_lemma(system):
             state = parts[0].strip()
             expression = parts[1].strip()
             
-            if " + ''" in expression:
-                expression.replace(" + ''", "")
+            if "+ ''" in expression:
+                expression = expression.replace("+ ''", "")
                 
             # Vérifier si l'équation est de la forme X = YZ
             if '+' in expression:
