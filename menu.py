@@ -38,9 +38,9 @@ def menu():
                     wrongChoice = False
                 case "2":
                     choice=input("What is the name of the automata you want to import?\n")
-                    verif = from_json(choice)
-                    if(verif != None):
-                        automate = verif
+                    temp = from_json(choice)
+                    if(temp != None):
+                        automate = temp
                         wrongChoice = False
                     else:
                         print("The file does not exist")
@@ -64,7 +64,8 @@ def menu():
 
             option = input("Your choice>> ")
             match option:
-                case "1":verif(automate)
+                case "1":
+                    verif(automate)
                 case "2":automate = operation(automate)
                 case "3":Menu=0
                 case "4":
