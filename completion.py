@@ -4,7 +4,7 @@ from classes import State
 # Function to make an automata complete
 def make_complete(automate):
     if is_complete(automate) == True:
-         print("L'automate est déja complet ou a été complété.")
+         print("The automaton is already complete or has been completed")
          return automate
     else:
         # Create a phi state that will contains all the alphabet's symbol transitioning in himself
@@ -29,9 +29,9 @@ def is_complete(automate):
         if set(state.transitions.keys()) != set(automate.alphabet):
             is_complet = False
     if is_complet == True:
-        print("L'automate est complet.")
+        print("The automaton is complete..")
     else:
-        print("L'automate n'est pas complet.")
+        print("The automaton is not complete.")
     return is_complet
 
 
@@ -61,12 +61,12 @@ if __name__ == "__main__":
 
     automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
 
-    print("États de l'automate avant la complétion :")
+    print("The automaton is not complete :")
     print_states(automate)
     print("\n")
     automate=make_complete(automate)
     automate=make_complete(automate)
-    print("États de l'automate après la complétion :")
+    print("The automaton is complete : ")
     print("\n")
     print_states(automate)
 
