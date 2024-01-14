@@ -8,8 +8,6 @@ This project is an implementation of operations on finite automata. It provides 
 - [Usage](#usage)
 - [Features](#features)
 - [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
@@ -70,7 +68,4 @@ The project relies on the following dependencies:
 
 - `json`: For handling JSON serialization/deserialization.
 - `os`: For interacting with the file system.
-  
-## License
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute it as per the terms of the license.
