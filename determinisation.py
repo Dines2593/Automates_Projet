@@ -26,7 +26,7 @@ def make_determinist(automate):
     Liste = []
 
     #namesList=[]  #liste de strings, chp
-    if is_determinist(automate):
+    if not is_determinist(automate):
         allStates = allStates + automate.states
         statesList.append(automate.states[0])  # Ajout du premier etat de l'automate
 
