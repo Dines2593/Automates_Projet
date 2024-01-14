@@ -8,6 +8,7 @@ This project is an implementation of operations on finite automata. It provides 
 - [Usage](#usage)
 - [Features](#features)
 - [Dependencies](#dependencies)
+- [Thanks](#thanks)
 
 ## Overview
 
@@ -69,3 +70,10 @@ The project relies on the following dependencies:
 - `json`: For handling JSON serialization/deserialization.
 - `os`: For interacting with the file system.
 
+## Thanks
+This project was done by the following CY TECH students :
+- ALLOCHON Matthieu
+- CHANTHRABOUTH-LIEBBE Simon 
+- NAGULANATHAN Dines
+- FELGINES Sara
+- SAID MOHAMED HARIBOU Luqman
