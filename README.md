@@ -29,8 +29,13 @@ The project is structured into several modules:
 
 ## Usage
 
+First of all, after downloading the code from our GitHub repository, you will need to extract it. 
+Then, you will need to install Networkx for the display function of the automaton. Use the code : `py -m pip install networkx` to install it. 
+Once it's done, you can use our program. 
+
 To use the project, run the `menu()` function from the main script.
 
+All you need to do is to put the number depending on the option you want.
 The script will guide you through the available options, allowing you to create, manipulate, and analyze finite automata.
 
 ## Features
