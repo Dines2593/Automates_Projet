@@ -171,7 +171,6 @@ def operation(automate):
                 automate = make_determinist(automate)  # Function to determin an automata
                 printAEF(automate)
             case "4":
-                printAEF(automate)
                 automate = emonde(automate)
                 printAEF(automate)
             case "5":
