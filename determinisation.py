@@ -1,6 +1,6 @@
 from classes import Automate, State
 
-def isDeterminist(automate):
+def is_determinist(automate):
     count=0
     chogoice=0
     for state in automate.states :
@@ -22,7 +22,7 @@ def isDeterminist(automate):
                 case "2":return automate
                 case _:print("Le choix n'existe pas, veuillez rééssayer.\n")
 
-def determining(automate):
+def make_determinist(automate):
     allStates = []  #liste des nouveaux et anciens états, utile pour ordonner les fusions d'états
     statesList = []  #liste des états du nouvel automate
     test = 0
