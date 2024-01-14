@@ -30,7 +30,10 @@ def emonde(automate):
 
     # Étape 4 : Retourne la liste des états nécessaires
     necessary_states = [state for state in automate.states if state.name in necessary_state and state.name != 'q4']
-    return necessary_states
+    
+    automate.states = necessary_states
+    automate.name = automate.name + "_Pruned"
+    return automate
 
 # Affichage dans la console
 def print_states(result_states):

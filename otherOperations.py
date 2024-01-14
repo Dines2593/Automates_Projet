@@ -7,6 +7,7 @@ def make_completion(automate):
 # Function to create a completion automate, every final state of the automata is reversed
     for state in automate.states:  # avant : for state in CAEF.states:
         state.isFinal = not state.isFinal
+    automate.name = automate.name + "_Completion"
     return automate
 
 def mirror(states, alphabet, name):
@@ -28,7 +29,7 @@ def mirror(states, alphabet, name):
             state.transitions[symbol] = new_transitions
 
     # Créer et retourner l'automate miroir
-    mirrored_automaton = Automate(alphabet, mirrored_states, name + '_mirror')
+    mirrored_automaton = Automate(alphabet, mirrored_states, name + '_Mirror')
     return mirrored_automaton
 
 def cartesian_product(automate1, automate2):
@@ -60,7 +61,7 @@ def cartesian_product(automate1, automate2):
             if new_is_initial or has_incoming_transitions or any(combined_transitions for combined_transitions in new_transitions.values()):
                 new_states.append(State(new_name, new_is_initial, new_is_final, new_transitions))
 
-    return Automate(automate1.alphabet + automate2.alphabet, new_states, f"{automate1.name} * {automate2.name}")
+    return Automate(automate1.alphabet + automate2.alphabet, new_states, automate1.name+'X'+automate2.name)
 
 def concatenate_automate(automatonA, automatonB):
     # Étape 1 : Créer un nouvel alphabet en combinant les alphabets des deux automates
@@ -86,7 +87,7 @@ def concatenate_automate(automatonA, automatonB):
 
     # Créer l'automate concaténé
     concatenated_states = statesA_copy + statesB_copy
-    concatenated_automaton = Automate(alphabet_concat, concatenated_states, automatonA.name + '_'+ automatonB.name+'_concatenated')
+    concatenated_automaton = Automate(alphabet_concat, concatenated_states, automatonA.name + '_'+ automatonB.name+'_Concatenated')
 
     return concatenated_automaton
 

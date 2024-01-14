@@ -60,10 +60,6 @@ def create_automat():
     states.append(initial_state)
 
     final_state_string = input("Entrez l'unique ou les états finaux de l'automate (bien séparé avec des virgules): ")
-    
-    if ',' in final_state_string:
-        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
-        return
         
     if ' ' in final_state_string:
         print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")

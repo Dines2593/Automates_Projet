@@ -163,11 +163,17 @@ def operation(automate):
         match option:
             case "1": 
                 automate = edit_automat(automate)
-                print(automate.name)
-            case "2":make_complete(automate)
+                printAEF(automate)
+            case "2":
+                automate = make_complete(automate)
+                printAEF(automate)
             case "3":
                 automate = make_determinist(automate)  # Function to determin an automata
-            case "4":emonde(automate)
+                printAEF(automate)
+            case "4":
+                printAEF(automate)
+                automate = emonde(automate)
+                printAEF(automate)
             case "5":
                 automate2=new_automate() 
                 automate = concatenate_automate(automate,automate2)
@@ -176,8 +182,12 @@ def operation(automate):
                 automate2=new_automate()
                 automate = cartesian_product(automate,automate2)
                 printAEF(automate)
-            case "7":automate=mirror(automate.states,automate.alphabet,automate.name)
-            case "8":make_completion(automate)
+            case "7":
+                automate=mirror(automate.states,automate.alphabet,automate.name)
+                printAEF(automate)
+            case "8":
+                automate = make_completion(automate)
+                printAEF(automate)
             case "9":
                 Menu=0
                 return automate
