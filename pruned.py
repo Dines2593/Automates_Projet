@@ -28,16 +28,15 @@ def emonde(automate):
             # Pour chaque symbole de transition, supprime les destinations qui ne sont pas dans les noms d'états nécessaires
             state.transitions[symbol] = [dest for dest in state.transitions[symbol] if dest in necessary_state]
 
-    # Étape 4 : Retourne la liste des états nécessaires
-    necessary_states = [state for state in automate.states if state.name in necessary_state and state.name != 'q4']
-    
-    automate.states = necessary_states
-    automate.name = automate.name + "_Pruned"
-    return automate
+        # Étape 4 : Retourne uniquement les états qui sont accessibles à partir de l'état initial
+        necessary_states = [state for state in automate.states if state.name in necessary_state]
+        automate.states = necessary_states
+        automate.name = automate.name + "_Pruned"
+        return automate
 
-# Affichage dans la console
-def print_states(result_states):
-    for state in result_states:
+# Modification de la fonction print_states pour prendre un objet Automate
+def print_states(automate):
+    for state in automate.states:  # Itérer sur les états de l'objet Automate
         transitions_str = ', '.join([f"{symbol}: {transitions}" for symbol, transitions in state.transitions.items() if transitions])
         if transitions_str or state.isInitial or state.isFinal:
             print(f"État : {state.name}")
@@ -47,8 +46,8 @@ def print_states(result_states):
             print(f"Est final : {state.isFinal}")
             print()
 
+# Example
 if __name__ == "__main__":
-    # Example
     alphabet = ['a', 'b']
 
     q0 = State('q0', True, False, {'a': ['q3'], 'b': ['q1']})
