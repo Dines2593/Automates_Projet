@@ -51,7 +51,11 @@ def create_automat():
     if ',' in initial_state_name:
         print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
         return
-    
+        
+    if ' ' in initial_state_name:
+        print("\033[91mErreur : Un automate à état fini possède un seul état initial mais peut avoir plusieurs états finaux.\033[0m\n")
+        return
+        
     initial_state = State(initial_state_name, True, False, {})
     states.append(initial_state)
 
