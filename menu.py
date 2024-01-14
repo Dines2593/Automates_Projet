@@ -4,12 +4,12 @@ import os
 from classes import Automate, State
 
 from completion import is_complete, make_complete
-from determinisation import determining, isDeterminist, ordo, unify
+from determinisation import make_determinist, is_determinist, ordo, unify
 # from display import draw_automaton
 from manipulate import create_automat, edit_automat
 from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
 from pruned import emonde
-from wordRecognize import wordRecognize, wordRecognizeRec, stateFinder  
+from wordRecognize import word_recognize, wordRecognizeRec, stateFinder  
 from exp_language_check import get_expression, get_language, check_same_language
 
 #menu central
@@ -165,4 +165,3 @@ def operation(automate):
 
 if __name__ == "__main__":
     menu()
-
