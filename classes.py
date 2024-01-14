@@ -32,6 +32,7 @@ class Automate:
             os.makedirs("./mes_automates")
         with open("./mes_automates/"+self.name+".json", 'w') as json_file:
             json.dump(automate_dict, json_file, indent=4)
+            print ("The file has been created")
     
             
     # Function to delete a json file
@@ -45,7 +46,7 @@ class Automate:
                 print("The file has been removed")
             except:
                 print("The file does not exist !")  # If there's no .json file 
-
+    """
     @classmethod
     def from_dict(cls, automate_dict):
         # Créer une instance de la classe Automate à partir d'un dictionnaire
@@ -55,20 +56,38 @@ class Automate:
             for state_data in automate_dict["states"]
         ]
         return cls(alphabet, states)
-
+    
     @classmethod
     def from_json(cls, filename):
         # Lire les données du fichier JSON et créer une instance de la classe Automate
         with open("./mes_automates/"+filename+".json", 'r') as json_file:
             automate_data = json.load(json_file)
         return cls.from_dict(automate_data)
-
+    """
 class State:
     def __init__(self, name, isInitial, isFinal, transitions):
         self.name = name
         self.isInitial = isInitial
         self.isFinal = isFinal
         self.transitions = transitions
+
+def from_dict(automate_dict):
+        # Créer une instance de la classe Automate à partir d'un dictionnaire
+        name = automate_dict["name"]
+        alphabet = automate_dict["alphabet"]
+        states = [
+            State(state_data["name"], state_data["isInitial"], state_data["isFinal"], state_data["transitions"])
+            for state_data in automate_dict["states"]
+        ]
+        return Automate(alphabet, states, name)
+
+def from_json(filename):
+        # Lire les données du fichier JSON et créer une instance de la classe Automate
+        if not os.path.exists("./mes_automates/"+filename+".json"):
+            return None
+        with open("./mes_automates/"+filename+".json", 'r') as json_file:
+            automate_data = json.load(json_file)
+        return from_dict(automate_data)
 
 if __name__ == "__main__":
     # Exemple typique d'automates (PDF Automate page 10 du Teams PYTHON ):
