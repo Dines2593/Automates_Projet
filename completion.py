@@ -4,7 +4,7 @@ from classes import State
 # Function to make an automata complete
 def make_complete(automate):
     if is_complete(automate) == True:
-         print("The automaton is already complete or has been completed")
+         print("L'automate est déja complet ou a été complété.")
          return automate
     else:
         # Create a phi state that will contains all the alphabet's symbol transitioning in himself
@@ -14,12 +14,12 @@ def make_complete(automate):
         for state in automate.states:
             for symbol in automate.alphabet:
                 if symbol not in state.transitions:
-                    state.transitions[symbol] = "phi"  # Add "phi" for the alphabet's symbol who'is not in the actual state
+                    state.transitions[symbol] = ["phi"]  # Add "phi" for the alphabet's symbol who'is not in the actual state
         #print_automate.states(automate)
         for state in automate.states:
             for symbol, target_state in state.transitions.items():
                 if target_state == "phi":
-                    state.transitions[symbol] = phi_state.name
+                    state.transitions[symbol] = [phi_state.name]
         return automate
 
 def is_complete(automate):
@@ -29,9 +29,9 @@ def is_complete(automate):
         if set(state.transitions.keys()) != set(automate.alphabet):
             is_complet = False
     if is_complet == True:
-        print("The automaton is complete..")
+        print("L'automate est complet.")
     else:
-        print("The automaton is not complete.")
+        print("L'automate n'est pas complet.")
     return is_complet
 
 
@@ -61,14 +61,11 @@ if __name__ == "__main__":
 
     automate = Automate(alphabet, [q0, q1, q2, q3, q4, q5], 'autobahn')
 
-    print("The automaton is not complete :")
+    print("États de l'automate avant la complétion :")
     print_states(automate)
     print("\n")
     automate=make_complete(automate)
     automate=make_complete(automate)
-    print("The automaton is complete : ")
+    print("États de l'automate après la complétion :")
     print("\n")
     print_states(automate)
-
-
-
