@@ -1,19 +1,6 @@
-"""
 from classes import Automate
 from classes import State
-"""
-class Automate:
-    def __init__(self, alphabet, states,name):
-        self.alphabet = alphabet
-        self.states = states
-        self.name = name
 
-class State:
-    def __init__(self, name, isInitial, isFinal, transitions):
-        self.name = name
-        self.isInitial = isInitial
-        self.isFinal = isFinal
-        self.transitions = transitions
     
 
 def make_completion(automate):
@@ -99,7 +86,7 @@ def concatenate_automate(automatonA, automatonB):
 
     # Créer l'automate concaténé
     concatenated_states = statesA_copy + statesB_copy
-    concatenated_automaton = Automate(alphabet_concat, concatenated_states, 'concatenated')
+    concatenated_automaton = Automate(alphabet_concat, concatenated_states, automatonA.name + '_'+ automatonB.name+'_concatenated')
 
     return concatenated_automaton
 

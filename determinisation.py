@@ -103,7 +103,8 @@ def make_determinist(automate):
             print(state.transitions)
             print('\n')
         return Automate(automate.alphabet, statesList, automate.name+"_Determinised")
-    else:print("The automata is already determinist")
+    else:
+        return automate
 
 def unify(liste) : #supprime les doublons dans les liste de noms d'états
     i=0

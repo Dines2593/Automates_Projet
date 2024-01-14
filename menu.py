@@ -6,11 +6,13 @@ from classes import Automate, State, from_json, from_dict
 from completion import is_complete, make_complete
 from determinisation import make_determinist, is_determinist, ordo, unify
 # from display import draw_automaton
-from manipulate import create_automat, edit_automat
+from manipulate import create_automat, edit_automat, printAEF
 from otherOperations import make_completion, mirror, cartesian_product, concatenate_automate
 from pruned import emonde
 from wordRecognize import word_recognize, wordRecognizeRec, stateFinder  
-from exp_language_check import get_expression, get_language
+from exp_language_check import get_expression, get_language, check_same_language
+
+
 
 #menu central
 def menu():
@@ -92,12 +94,15 @@ def new_automate():
 
             option = input("Your choice>> ")
             match option:
-                case "1":automate=create_automat()
+                case "1":
+                    automate=create_automat()
+                    return automate
                 case "2":
                     choice=input("What is the name of the automata you want to import?")
                     automate = from_json(choice)
+                    return automate
                 case _:print("Choice not valid.\n")
-    return automate
+    
 
 
 # menu pour acceder a toutes les verifications
@@ -127,7 +132,9 @@ def verif(automate):
             case "2":is_complete(automate)
             case "3":is_determinist(automate)
             case "4": get_language(automate)
-            case "5": automate2=new_automate(),
+            case "5": 
+                automate2 = new_automate()
+                check_same_language(automate, automate2)
             case "6": get_expression(automate)
             case "7": Menu=0
             case _:print("Choice not valid.")
@@ -155,17 +162,20 @@ def operation(automate):
         option = input("Your choice>> ")
         match option:
             case "1": 
-                automate = edit_automat()
+                automate = edit_automat(automate)
                 print(automate.name)
             case "2":make_complete(automate)
-            case "3":make_determinist(automate)  # Function to determin an automata
+            case "3":
+                automate = make_determinist(automate)  # Function to determin an automata
             case "4":emonde(automate)
             case "5":
                 automate2=new_automate() 
-                concatenate_automate(automate,automate2)
+                automate = concatenate_automate(automate,automate2)
+                printAEF(automate)
             case "6":
                 automate2=new_automate()
-                cartesian_product(automate,automate2)
+                automate = cartesian_product(automate,automate2)
+                printAEF(automate)
             case "7":automate=mirror(automate.states,automate.alphabet,automate.name)
             case "8":make_completion(automate)
             case "9":
